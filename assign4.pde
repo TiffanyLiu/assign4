@@ -37,6 +37,13 @@ void setup() {
   reset();
 }
 
+void printText(int size,String word,int y) {
+    textAlign(CENTER);
+    textSize(size);
+    text(word,320,y);
+    fill(95,194,226);
+}  
+
 void draw() {
   background(50, 50, 50);
   noStroke();
@@ -44,10 +51,9 @@ void draw() {
   switch(status) {
 
   case GAME_START:
-    /*---------Print Text-------------*/
-    text("press enter", 320, 240); // replace this with printText
-    /*--------------------------------*/
-    break;
+  printText(60,"GALIZIAN",240);
+  printText(20,"Press ENTER to Start",280);
+  break;
 
   case GAME_PLAYING:
     background(50, 50, 50);
@@ -70,23 +76,20 @@ void draw() {
     break;
 
   case GAME_PAUSE:
-    /*---------Print Text-------------*/
-
-    /*--------------------------------*/
+  printText(40,"PAUSE",240);
+  printText(20,"Press Enter to Reseme",280);
     break;
 
   case GAME_WIN:
-    /*---------Print Text-------------*/
-
-    /*--------------------------------*/
+  printText(40,"Winner",300);
+  printText(20,"SCORE:",340);
     winAnimate();
     break;
 
   case GAME_LOSE:
     loseAnimate();
-    /*---------Print Text-------------*/
-
-    /*--------------------------------*/
+    printText(40,"BOOOM",240);
+    printText(20,"You are dead!!",280);
     break;
   }
 }
@@ -114,16 +117,30 @@ void keyPressed() {
 }
 
 /*---------Make Alien Function-------------*/
-void alienMaker() {
-  aList[0]= new Alien(50, 50);
+void alienMaker(int num,int numInRow) {
+
+  for (int i=0;i<num;i++){
+    
+    int row=i/numInRow;
+    int col=i%numInRow;
+    int x=50+(40*col);
+    int y=50+(50*row);
+    aList[i]= new Alien(x, y);
+}
 }
 
 void drawLife() {
   fill(230, 74, 96);
   text("LIFE:", 36, 455);
-  /*---------Draw Ship Life---------*/
+  if(ship.life>0){
+    ellipse(78,459,15,15);
+  }
+  if(ship.life>1){
+    ellipse(103,459,15,15);
+  }
+  if(ship.life>2){ellipse(128,459,15,15);
+  }
 }
-
 void drawBullet() {
   for (int i=0; i<bList.length-1; i++) {
     Bullet bullet = bList[i];
@@ -297,7 +314,7 @@ void reset() {
   
 
   /*-----------Call Make Alien Function--------*/
-  alienMaker();
+  alienMaker(53,12);
 
   ship.posX = width/2;
   ship.posY = 460;
@@ -343,4 +360,3 @@ void cheatKeys() {
     }
   }
 }
-
